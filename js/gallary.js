@@ -65,6 +65,7 @@ const images = [
 ];
 
 const gallery = document.querySelector('.gallery');
+const fragment = document.createDocumentFragment();
 
 images.forEach(image => {
   const item = document.createElement('li');
@@ -73,10 +74,6 @@ images.forEach(image => {
   const link = document.createElement('a');
   link.classList.add('gallery-link');
   link.href = image.original;
-
-  link.addEventListener('click', function (event) {
-    event.preventDefault();
-  });
 
   const imgElement = document.createElement('img');
   imgElement.classList.add('gallery-image');
@@ -87,12 +84,15 @@ images.forEach(image => {
 
   link.appendChild(imgElement);
   item.appendChild(link);
-  gallery.appendChild(item);
+  fragment.appendChild(item);
 });
 
-gallery.addEventListener('click', openPhoto);
+gallery.appendChild(fragment);
 
-function openPhoto(event) {
+gallery.addEventListener('click', onGallaryItemClick);
+
+function onGallaryItemClick(event) {
+  event.preventDefault();
   if (event.target.nodeName !== 'IMG') {
     return;
   }
